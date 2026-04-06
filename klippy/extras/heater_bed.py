@@ -15,6 +15,9 @@ class PrinterHeaterBed:
         gcode = self.printer.lookup_object('gcode')
         gcode.register_command("M140", self.cmd_M140)
         gcode.register_command("M190", self.cmd_M190)
+        gcode.register_command("CLOSE_BED_DEBUG", self.cmd_close_bed_debug)
+        self.heater_bed_state = 0
+        self.is_heater_bed = 1
     def cmd_M140(self, gcmd, wait=False):
         # Set Bed Temperature
         temp = gcmd.get_float('S', 0.)
@@ -23,6 +26,9 @@ class PrinterHeaterBed:
     def cmd_M190(self, gcmd):
         # Set Bed Temperature and Wait
         self.cmd_M140(gcmd, wait=True)
+    def cmd_close_bed_debug(self, gcmd):
+        is_close = gcmd.get_int('S', 1)
+        self.is_heater_bed = is_close
 
 def load_config(config):
     return PrinterHeaterBed(config)

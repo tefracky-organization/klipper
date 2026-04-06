@@ -98,5 +98,6 @@ class TMC2209:
         # SGTHRS
         set_config_field(config, "sgthrs", 0)
 
+        set_config_field(config, "ottrim", 2)
 def load_config_prefix(config):
     return TMC2209(config)

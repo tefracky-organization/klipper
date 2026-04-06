@@ -154,7 +154,8 @@ class ArcSupport:
             mm_of_travel = math.hypot(flat_mm, linear_travel)
         else:
             mm_of_travel = math.fabs(flat_mm)
-        segments = max(1., math.floor(mm_of_travel / self.mm_per_arc_segment))
+        #segments = max(1., math.floor(mm_of_travel / self.mm_per_arc_segment))
+        segments = math.ceil(mm_of_travel / self.mm_per_arc_segment)
 
         # Generate coordinates
         theta_per_segment = angular_travel / segments

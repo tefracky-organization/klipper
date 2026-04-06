@@ -19191,111 +19191,100 @@ typedef struct
 #define OCTOSPI_SR_TCF                 OCTOSPI_SR_TCF_Msk                      /*!< Transfer Complete Flag */
 #define OCTOSPI_SR_FTF_Pos             (2U)
 #define OCTOSPI_SR_FTF_Msk             (0x1UL << OCTOSPI_SR_FTF_Pos)            /*!< 0x00000004 */
-#define OCTOSPI_SR_FTF                 OCTOSPI_SR_FTF_Msk                      /*!< FIFO Threshold Flag */
-#define OCTOSPI_SR_SMF_Pos             (3U)
-#define OCTOSPI_SR_SMF_Msk             (0x1UL << OCTOSPI_SR_SMF_Pos)            /*!< 0x00000008 */
-#define OCTOSPI_SR_SMF                 OCTOSPI_SR_SMF_Msk                      /*!< Status Match Flag */
-#define OCTOSPI_SR_TOF_Pos             (4U)
-#define OCTOSPI_SR_TOF_Msk             (0x1UL << OCTOSPI_SR_TOF_Pos)            /*!< 0x00000010 */
-#define OCTOSPI_SR_TOF                 OCTOSPI_SR_TOF_Msk                      /*!< Timeout Flag */
-#define OCTOSPI_SR_BUSY_Pos            (5U)
-#define OCTOSPI_SR_BUSY_Msk            (0x1UL << OCTOSPI_SR_BUSY_Pos)           /*!< 0x00000020 */
-#define OCTOSPI_SR_BUSY                OCTOSPI_SR_BUSY_Msk                     /*!< Busy */
-#define OCTOSPI_SR_FLEVEL_Pos          (8U)
-#define OCTOSPI_SR_FLEVEL_Msk          (0x3FUL << OCTOSPI_SR_FLEVEL_Pos)        /*!< 0x00003F00 */
-#define OCTOSPI_SR_FLEVEL              OCTOSPI_SR_FLEVEL_Msk                   /*!< FIFO Level */
+#define OCTOSPI_SR_FTF                 OCTOSPI_SR_FTF_Msk                      /*CONTRACT,
+   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+   OF THE POSSIBILITY OF SUCH DAMAGE.
 
-/****************  Bit definition for OCTOSPI_FCR register  *******************/
-#define OCTOSPI_FCR_CTEF_Pos           (0U)
-#define OCTOSPI_FCR_CTEF_Msk           (0x1UL << OCTOSPI_FCR_CTEF_Pos)          /*!< 0x00000001 */
-#define OCTOSPI_FCR_CTEF               OCTOSPI_FCR_CTEF_Msk                    /*!< Clear Transfer Error Flag */
-#define OCTOSPI_FCR_CTCF_Pos           (1U)
-#define OCTOSPI_FCR_CTCF_Msk           (0x1UL << OCTOSPI_FCR_CTCF_Pos)          /*!< 0x00000002 */
-#define OCTOSPI_FCR_CTCF               OCTOSPI_FCR_CTCF_Msk                    /*!< Clear Transfer Complete Flag */
-#define OCTOSPI_FCR_CSMF_Pos           (3U)
-#define OCTOSPI_FCR_CSMF_Msk           (0x1UL << OCTOSPI_FCR_CSMF_Pos)          /*!< 0x00000008 */
-#define OCTOSPI_FCR_CSMF               OCTOSPI_FCR_CSMF_Msk                    /*!< Clear Status Match Flag */
-#define OCTOSPI_FCR_CTOF_Pos           (4U)
-#define OCTOSPI_FCR_CTOF_Msk           (0x1UL << OCTOSPI_FCR_CTOF_Pos)          /*!< 0x00000010 */
-#define OCTOSPI_FCR_CTOF               OCTOSPI_FCR_CTOF_Msk                    /*!< Clear Timeout Flag */
+   Alternatively, the contents of this package may be used under the
+   terms of the GNU General Public License ("GPL") version 2 or any
+   later version, in which case the provisions of the GPL are
+   applicable instead of the above. If you wish to allow the use of
+   your version of this package only under the terms of the GPL and
+   not to allow others to use your version of this file under the BSD
+   license, indicate your decision by deleting the provisions above
+   and replace them with the notice and other provisions required by
+   the GPL in this and the other files of this package. If you do not
+   delete the provisions above, a recipient may use your version of
+   this file under either the BSD or the GPL.
 
-/****************  Bit definition for OCTOSPI_DLR register  *******************/
-#define OCTOSPI_DLR_DL_Pos             (0U)
-#define OCTOSPI_DLR_DL_Msk             (0xFFFFFFFFUL << OCTOSPI_DLR_DL_Pos)     /*!< 0xFFFFFFFF */
-#define OCTOSPI_DLR_DL                 OCTOSPI_DLR_DL_Msk                      /*!< Data Length */
+   On Debian systems, the complete text of the GNU General Public License
+   version 2 can be found in `/usr/share/common-licenses/GPL-2'.
 
-/*****************  Bit definition for OCTOSPI_AR register  *******************/
-#define OCTOSPI_AR_ADDRESS_Pos         (0U)
-#define OCTOSPI_AR_ADDRESS_Msk         (0xFFFFFFFFUL << OCTOSPI_AR_ADDRESS_Pos) /*!< 0xFFFFFFFF */
-#define OCTOSPI_AR_ADDRESS             OCTOSPI_AR_ADDRESS_Msk                  /*!< Address */
+======================================================================
 
-/*****************  Bit definition for OCTOSPI_DR register  *******************/
-#define OCTOSPI_DR_DATA_Pos            (0U)
-#define OCTOSPI_DR_DATA_Msk            (0xFFFFFFFFUL << OCTOSPI_DR_DATA_Pos)    /*!< 0xFFFFFFFF */
-#define OCTOSPI_DR_DATA                OCTOSPI_DR_DATA_Msk                     /*!< Data */
+Files copied from the Intel AESNI Sample Library are subject to the
+following license:
 
-/***************  Bit definition for OCTOSPI_PSMKR register  ******************/
-#define OCTOSPI_PSMKR_MASK_Pos         (0U)
-#define OCTOSPI_PSMKR_MASK_Msk         (0xFFFFFFFFUL << OCTOSPI_PSMKR_MASK_Pos) /*!< 0xFFFFFFFF */
-#define OCTOSPI_PSMKR_MASK             OCTOSPI_PSMKR_MASK_Msk                  /*!< Status mask */
+   Copyright (C) 2010, Intel Corporation
+   All rights reserved.
 
-/***************  Bit definition for OCTOSPI_PSMAR register  ******************/
-#define OCTOSPI_PSMAR_MATCH_Pos        (0U)
-#define OCTOSPI_PSMAR_MATCH_Msk        (0xFFFFFFFFUL << OCTOSPI_PSMAR_MATCH_Pos) /*!< 0xFFFFFFFF */
-#define OCTOSPI_PSMAR_MATCH            OCTOSPI_PSMAR_MATCH_Msk                 /*!< Status match */
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+   are met:
 
-/****************  Bit definition for OCTOSPI_PIR register  *******************/
-#define OCTOSPI_PIR_INTERVAL_Pos       (0U)
-#define OCTOSPI_PIR_INTERVAL_Msk       (0xFFFFUL << OCTOSPI_PIR_INTERVAL_Pos)   /*!< 0x0000FFFF */
-#define OCTOSPI_PIR_INTERVAL           OCTOSPI_PIR_INTERVAL_Msk                /*!< Polling Interval */
+      * Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
 
-/****************  Bit definition for OCTOSPI_CCR register  *******************/
-#define OCTOSPI_CCR_IMODE_Pos          (0U)
-#define OCTOSPI_CCR_IMODE_Msk          (0x7UL << OCTOSPI_CCR_IMODE_Pos)         /*!< 0x00000007 */
-#define OCTOSPI_CCR_IMODE              OCTOSPI_CCR_IMODE_Msk                   /*!< Instruction Mode */
-#define OCTOSPI_CCR_IMODE_0            (0x1UL << OCTOSPI_CCR_IMODE_Pos)         /*!< 0x00000001 */
-#define OCTOSPI_CCR_IMODE_1            (0x2UL << OCTOSPI_CCR_IMODE_Pos)         /*!< 0x00000002 */
-#define OCTOSPI_CCR_IMODE_2            (0x4UL << OCTOSPI_CCR_IMODE_Pos)         /*!< 0x00000004 */
-#define OCTOSPI_CCR_IDTR_Pos           (3U)
-#define OCTOSPI_CCR_IDTR_Msk           (0x1UL << OCTOSPI_CCR_IDTR_Pos)          /*!< 0x00000008 */
-#define OCTOSPI_CCR_IDTR               OCTOSPI_CCR_IDTR_Msk                    /*!< Instruction Double Transfer Rate */
-#define OCTOSPI_CCR_ISIZE_Pos          (4U)
-#define OCTOSPI_CCR_ISIZE_Msk          (0x3UL << OCTOSPI_CCR_ISIZE_Pos)         /*!< 0x00000030 */
-#define OCTOSPI_CCR_ISIZE              OCTOSPI_CCR_ISIZE_Msk                   /*!< Instruction Size */
-#define OCTOSPI_CCR_ISIZE_0            (0x1UL << OCTOSPI_CCR_ISIZE_Pos)         /*!< 0x00000010 */
-#define OCTOSPI_CCR_ISIZE_1            (0x2UL << OCTOSPI_CCR_ISIZE_Pos)         /*!< 0x00000020 */
-#define OCTOSPI_CCR_ADMODE_Pos         (8U)
-#define OCTOSPI_CCR_ADMODE_Msk         (0x7UL << OCTOSPI_CCR_ADMODE_Pos)        /*!< 0x00000700 */
-#define OCTOSPI_CCR_ADMODE             OCTOSPI_CCR_ADMODE_Msk                  /*!< Address Mode */
-#define OCTOSPI_CCR_ADMODE_0           (0x1UL << OCTOSPI_CCR_ADMODE_Pos)        /*!< 0x00000100 */
-#define OCTOSPI_CCR_ADMODE_1           (0x2UL << OCTOSPI_CCR_ADMODE_Pos)        /*!< 0x00000200 */
-#define OCTOSPI_CCR_ADMODE_2           (0x4UL << OCTOSPI_CCR_ADMODE_Pos)        /*!< 0x00000400 */
-#define OCTOSPI_CCR_ADDTR_Pos          (11U)
-#define OCTOSPI_CCR_ADDTR_Msk          (0x1UL << OCTOSPI_CCR_ADDTR_Pos)         /*!< 0x00000800 */
-#define OCTOSPI_CCR_ADDTR              OCTOSPI_CCR_ADDTR_Msk                   /*!< Address Double Transfer Rate */
-#define OCTOSPI_CCR_ADSIZE_Pos         (12U)
-#define OCTOSPI_CCR_ADSIZE_Msk         (0x3UL << OCTOSPI_CCR_ADSIZE_Pos)        /*!< 0x00003000 */
-#define OCTOSPI_CCR_ADSIZE             OCTOSPI_CCR_ADSIZE_Msk                  /*!< Address Size */
-#define OCTOSPI_CCR_ADSIZE_0           (0x1UL << OCTOSPI_CCR_ADSIZE_Pos)        /*!< 0x00001000 */
-#define OCTOSPI_CCR_ADSIZE_1           (0x2UL << OCTOSPI_CCR_ADSIZE_Pos)        /*!< 0x00002000 */
-#define OCTOSPI_CCR_ABMODE_Pos         (16U)
-#define OCTOSPI_CCR_ABMODE_Msk         (0x7UL << OCTOSPI_CCR_ABMODE_Pos)        /*!< 0x00070000 */
-#define OCTOSPI_CCR_ABMODE             OCTOSPI_CCR_ABMODE_Msk                  /*!< Alternate Bytes Mode */
-#define OCTOSPI_CCR_ABMODE_0           (0x1UL << OCTOSPI_CCR_ABMODE_Pos)        /*!< 0x00010000 */
-#define OCTOSPI_CCR_ABMODE_1           (0x2UL << OCTOSPI_CCR_ABMODE_Pos)        /*!< 0x00020000 */
-#define OCTOSPI_CCR_ABMODE_2           (0x4UL << OCTOSPI_CCR_ABMODE_Pos)        /*!< 0x00040000 */
-#define OCTOSPI_CCR_ABDTR_Pos          (19U)
-#define OCTOSPI_CCR_ABDTR_Msk          (0x1UL << OCTOSPI_CCR_ABDTR_Pos)         /*!< 0x00080000 */
-#define OCTOSPI_CCR_ABDTR              OCTOSPI_CCR_ABDTR_Msk                   /*!< Alternate Bytes Double Transfer Rate */
-#define OCTOSPI_CCR_ABSIZE_Pos         (20U)
-#define OCTOSPI_CCR_ABSIZE_Msk         (0x3UL << OCTOSPI_CCR_ABSIZE_Pos)        /*!< 0x00300000 */
-#define OCTOSPI_CCR_ABSIZE             OCTOSPI_CCR_ABSIZE_Msk                  /*!< Alternate Bytes Size */
-#define OCTOSPI_CCR_ABSIZE_0           (0x1UL << OCTOSPI_CCR_ABSIZE_Pos)        /*!< 0x00100000 */
-#define OCTOSPI_CCR_ABSIZE_1           (0x2UL << OCTOSPI_CCR_ABSIZE_Pos)        /*!< 0x00200000 */
-#define OCTOSPI_CCR_DMODE_Pos          (24U)
-#define OCTOSPI_CCR_DMODE_Msk          (0x7UL << OCTOSPI_CCR_DMODE_Pos)         /*!< 0x07000000 */
-#define OCTOSPI_CCR_DMODE              OCTOSPI_CCR_DMODE_Msk                   /*!< Data Mode */
-#define OCTOSPI_CCR_DMODE_0            (0x1UL << OCTOSPI_CCR_DMODE_Pos)         /*!< 0x01000000 */
+      * Redistributions in binary form must reproduce the above
+        copyright notice, this list of conditions and the following
+        disclaimer in the documentation and/or other materials
+        provided with the distribution.
+
+      * Neither the name of Intel Corporation nor the names of its
+        contributors may be used to endorse or promote products
+        derived from this software without specific prior written
+        permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+   FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE
+   COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+   INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+   OF THE POSSIBILITY OF SUCH DAMAGE.
+
+======================================================================
+
+The following notice applies to
+"src/ccapi/common/win/OldCC/autolock.hxx":
+
+   Copyright (C) 1998 by Danilo Almeida.  All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions
+   are met:
+
+   * Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   * Redistributions in binary form must reproduce the above
+     copyright notice, this list of conditions and the following
+     disclaimer in the documentation and/or other materials provided
+     with the distribution.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+   FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+   COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+   INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+   (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+   OF THE POSSIBILITY OF SUCH DAMAGE.
+
+======================================================================
+
+The Debian Packaging is licensed under the same terms as MIT Kerberos.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    /*!< 0x01000000 */
 #define OCTOSPI_CCR_DMODE_1            (0x2UL << OCTOSPI_CCR_DMODE_Pos)         /*!< 0x02000000 */
 #define OCTOSPI_CCR_DMODE_2            (0x4UL << OCTOSPI_CCR_DMODE_Pos)         /*!< 0x04000000 */
 #define OCTOSPI_CCR_DDTR_Pos           (27U)

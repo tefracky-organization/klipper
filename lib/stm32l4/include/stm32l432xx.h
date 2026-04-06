@@ -10973,214 +10973,345 @@ typedef struct
 #define SPI_SR_FTLVL_1           (0x2UL << SPI_SR_FTLVL_Pos)                   /*!< 0x00001000 */
 
 /********************  Bit definition for SPI_DR register  ********************/
-#define SPI_DR_DR_Pos            (0U)
-#define SPI_DR_DR_Msk            (0xFFFFUL << SPI_DR_DR_Pos)                   /*!< 0x0000FFFF */
-#define SPI_DR_DR                SPI_DR_DR_Msk                                 /*!<Data Register           */
+#define SPI_   >>> c.clear()                       # empty the counter
+    >>> c
+    Counter()
 
-/*******************  Bit definition for SPI_CRCPR register  ******************/
-#define SPI_CRCPR_CRCPOLY_Pos    (0U)
-#define SPI_CRCPR_CRCPOLY_Msk    (0xFFFFUL << SPI_CRCPR_CRCPOLY_Pos)           /*!< 0x0000FFFF */
-#define SPI_CRCPR_CRCPOLY        SPI_CRCPR_CRCPOLY_Msk                         /*!<CRC polynomial register */
+    Note:  If a count is set to zero or reduced to zero, it will remain
+    in the counter until the entry is deleted or the counter is cleared:
 
-/******************  Bit definition for SPI_RXCRCR register  ******************/
-#define SPI_RXCRCR_RXCRC_Pos     (0U)
-#define SPI_RXCRCR_RXCRC_Msk     (0xFFFFUL << SPI_RXCRCR_RXCRC_Pos)            /*!< 0x0000FFFF */
-#define SPI_RXCRCR_RXCRC         SPI_RXCRCR_RXCRC_Msk                          /*!<Rx CRC Register         */
+    >>> c = Counter('aaabbc')
+    >>> c['b'] -= 2                     # reduce the count of 'b' by two
+    >>> c.most_common()                 # 'b' is still in, but its count is zero
+    [('a', 3), ('c', 1), ('b', 0)]
 
-/******************  Bit definition for SPI_TXCRCR register  ******************/
-#define SPI_TXCRCR_TXCRC_Pos     (0U)
-#define SPI_TXCRCR_TXCRC_Msk     (0xFFFFUL << SPI_TXCRCR_TXCRC_Pos)            /*!< 0x0000FFFF */
-#define SPI_TXCRCR_TXCRC         SPI_TXCRCR_TXCRC_Msk                          /*!<Tx CRC Register         */
+    '''
+    # References:
+    #   http://en.wikipedia.org/wiki/Multiset
+    #   http://www.gnu.org/software/smalltalk/manual-base/html_node/Bag.html
+    #   http://www.demo2s.com/Tutorial/Cpp/0380__set-multiset/Catalog0380__set-multiset.htm
+    #   http://code.activestate.com/recipes/259174/
+    #   Knuth, TAOCP Vol. II section 4.6.3
 
-/******************************************************************************/
-/*                                                                            */
-/*                                    QUADSPI                                 */
-/*                                                                            */
-/******************************************************************************/
-/*****************  Bit definition for QUADSPI_CR register  *******************/
-#define QUADSPI_CR_EN_Pos              (0U)
-#define QUADSPI_CR_EN_Msk              (0x1UL << QUADSPI_CR_EN_Pos)            /*!< 0x00000001 */
-#define QUADSPI_CR_EN                  QUADSPI_CR_EN_Msk                       /*!< Enable */
-#define QUADSPI_CR_ABORT_Pos           (1U)
-#define QUADSPI_CR_ABORT_Msk           (0x1UL << QUADSPI_CR_ABORT_Pos)         /*!< 0x00000002 */
-#define QUADSPI_CR_ABORT               QUADSPI_CR_ABORT_Msk                    /*!< Abort request */
-#define QUADSPI_CR_DMAEN_Pos           (2U)
-#define QUADSPI_CR_DMAEN_Msk           (0x1UL << QUADSPI_CR_DMAEN_Pos)         /*!< 0x00000004 */
-#define QUADSPI_CR_DMAEN               QUADSPI_CR_DMAEN_Msk                    /*!< DMA Enable */
-#define QUADSPI_CR_TCEN_Pos            (3U)
-#define QUADSPI_CR_TCEN_Msk            (0x1UL << QUADSPI_CR_TCEN_Pos)          /*!< 0x00000008 */
-#define QUADSPI_CR_TCEN                QUADSPI_CR_TCEN_Msk                     /*!< Timeout Counter Enable */
-#define QUADSPI_CR_SSHIFT_Pos          (4U)
-#define QUADSPI_CR_SSHIFT_Msk          (0x1UL << QUADSPI_CR_SSHIFT_Pos)        /*!< 0x00000010 */
-#define QUADSPI_CR_SSHIFT              QUADSPI_CR_SSHIFT_Msk                   /*!< Sample Shift */
-#define QUADSPI_CR_DFM_Pos             (6U)
-#define QUADSPI_CR_DFM_Msk             (0x1UL << QUADSPI_CR_DFM_Pos)           /*!< 0x00000040 */
-#define QUADSPI_CR_DFM                 QUADSPI_CR_DFM_Msk                      /*!< Dual-flash mode */
-#define QUADSPI_CR_FSEL_Pos            (7U)
-#define QUADSPI_CR_FSEL_Msk            (0x1UL << QUADSPI_CR_FSEL_Pos)          /*!< 0x00000080 */
-#define QUADSPI_CR_FSEL                QUADSPI_CR_FSEL_Msk                     /*!< Flash memory selection */
-#define QUADSPI_CR_FTHRES_Pos          (8U)
-#define QUADSPI_CR_FTHRES_Msk          (0xFUL << QUADSPI_CR_FTHRES_Pos)        /*!< 0x00000F00 */
-#define QUADSPI_CR_FTHRES              QUADSPI_CR_FTHRES_Msk                   /*!< FTHRES[3:0] FIFO Level */
-#define QUADSPI_CR_TEIE_Pos            (16U)
-#define QUADSPI_CR_TEIE_Msk            (0x1UL << QUADSPI_CR_TEIE_Pos)          /*!< 0x00010000 */
-#define QUADSPI_CR_TEIE                QUADSPI_CR_TEIE_Msk                     /*!< Transfer Error Interrupt Enable */
-#define QUADSPI_CR_TCIE_Pos            (17U)
-#define QUADSPI_CR_TCIE_Msk            (0x1UL << QUADSPI_CR_TCIE_Pos)          /*!< 0x00020000 */
-#define QUADSPI_CR_TCIE                QUADSPI_CR_TCIE_Msk                     /*!< Transfer Complete Interrupt Enable */
-#define QUADSPI_CR_FTIE_Pos            (18U)
-#define QUADSPI_CR_FTIE_Msk            (0x1UL << QUADSPI_CR_FTIE_Pos)          /*!< 0x00040000 */
-#define QUADSPI_CR_FTIE                QUADSPI_CR_FTIE_Msk                     /*!< FIFO Threshold Interrupt Enable */
-#define QUADSPI_CR_SMIE_Pos            (19U)
-#define QUADSPI_CR_SMIE_Msk            (0x1UL << QUADSPI_CR_SMIE_Pos)          /*!< 0x00080000 */
-#define QUADSPI_CR_SMIE                QUADSPI_CR_SMIE_Msk                     /*!< Status Match Interrupt Enable */
-#define QUADSPI_CR_TOIE_Pos            (20U)
-#define QUADSPI_CR_TOIE_Msk            (0x1UL << QUADSPI_CR_TOIE_Pos)          /*!< 0x00100000 */
-#define QUADSPI_CR_TOIE                QUADSPI_CR_TOIE_Msk                     /*!< TimeOut Interrupt Enable */
-#define QUADSPI_CR_APMS_Pos            (22U)
-#define QUADSPI_CR_APMS_Msk            (0x1UL << QUADSPI_CR_APMS_Pos)          /*!< 0x00400000 */
-#define QUADSPI_CR_APMS                QUADSPI_CR_APMS_Msk                     /*!< Automatic Polling Mode Stop */
-#define QUADSPI_CR_PMM_Pos             (23U)
-#define QUADSPI_CR_PMM_Msk             (0x1UL << QUADSPI_CR_PMM_Pos)           /*!< 0x00800000 */
-#define QUADSPI_CR_PMM                 QUADSPI_CR_PMM_Msk                      /*!< Polling Match Mode */
-#define QUADSPI_CR_PRESCALER_Pos       (24U)
-#define QUADSPI_CR_PRESCALER_Msk       (0xFFUL << QUADSPI_CR_PRESCALER_Pos)    /*!< 0xFF000000 */
-#define QUADSPI_CR_PRESCALER           QUADSPI_CR_PRESCALER_Msk                /*!< PRESCALER[7:0] Clock prescaler */
+    def __init__(*args, **kwds):
+        '''Create a new, empty Counter object.  And if given, count elements
+        from an input iterable.  Or, initialize the count from another mapping
+        of elements to their counts.
 
-/*****************  Bit definition for QUADSPI_DCR register  ******************/
-#define QUADSPI_DCR_CKMODE_Pos         (0U)
-#define QUADSPI_DCR_CKMODE_Msk         (0x1UL << QUADSPI_DCR_CKMODE_Pos)       /*!< 0x00000001 */
-#define QUADSPI_DCR_CKMODE             QUADSPI_DCR_CKMODE_Msk                  /*!< Mode 0 / Mode 3 */
-#define QUADSPI_DCR_CSHT_Pos           (8U)
-#define QUADSPI_DCR_CSHT_Msk           (0x7UL << QUADSPI_DCR_CSHT_Pos)         /*!< 0x00000700 */
-#define QUADSPI_DCR_CSHT               QUADSPI_DCR_CSHT_Msk                    /*!< CSHT[2:0]: ChipSelect High Time */
-#define QUADSPI_DCR_CSHT_0             (0x1UL << QUADSPI_DCR_CSHT_Pos)         /*!< 0x00000100 */
-#define QUADSPI_DCR_CSHT_1             (0x2UL << QUADSPI_DCR_CSHT_Pos)         /*!< 0x00000200 */
-#define QUADSPI_DCR_CSHT_2             (0x4UL << QUADSPI_DCR_CSHT_Pos)         /*!< 0x00000400 */
-#define QUADSPI_DCR_FSIZE_Pos          (16U)
-#define QUADSPI_DCR_FSIZE_Msk          (0x1FUL << QUADSPI_DCR_FSIZE_Pos)       /*!< 0x001F0000 */
-#define QUADSPI_DCR_FSIZE              QUADSPI_DCR_FSIZE_Msk                   /*!< FSIZE[4:0]: Flash Size */
+        >>> c = Counter()                           # a new, empty counter
+        >>> c = Counter('gallahad')                 # a new counter from an iterable
+        >>> c = Counter({'a': 4, 'b': 2})           # a new counter from a mapping
+        >>> c = Counter(a=4, b=2)                   # a new counter from keyword args
 
-/******************  Bit definition for QUADSPI_SR register  *******************/
-#define QUADSPI_SR_TEF_Pos             (0U)
-#define QUADSPI_SR_TEF_Msk             (0x1UL << QUADSPI_SR_TEF_Pos)           /*!< 0x00000001 */
-#define QUADSPI_SR_TEF                 QUADSPI_SR_TEF_Msk                      /*!< Transfer Error Flag */
-#define QUADSPI_SR_TCF_Pos             (1U)
-#define QUADSPI_SR_TCF_Msk             (0x1UL << QUADSPI_SR_TCF_Pos)           /*!< 0x00000002 */
-#define QUADSPI_SR_TCF                 QUADSPI_SR_TCF_Msk                      /*!< Transfer Complete Flag */
-#define QUADSPI_SR_FTF_Pos             (2U)
-#define QUADSPI_SR_FTF_Msk             (0x1UL << QUADSPI_SR_FTF_Pos)           /*!< 0x00000004 */
-#define QUADSPI_SR_FTF                 QUADSPI_SR_FTF_Msk                      /*!< FIFO Threshlod Flag */
-#define QUADSPI_SR_SMF_Pos             (3U)
-#define QUADSPI_SR_SMF_Msk             (0x1UL << QUADSPI_SR_SMF_Pos)           /*!< 0x00000008 */
-#define QUADSPI_SR_SMF                 QUADSPI_SR_SMF_Msk                      /*!< Status Match Flag */
-#define QUADSPI_SR_TOF_Pos             (4U)
-#define QUADSPI_SR_TOF_Msk             (0x1UL << QUADSPI_SR_TOF_Pos)           /*!< 0x00000010 */
-#define QUADSPI_SR_TOF                 QUADSPI_SR_TOF_Msk                      /*!< Timeout Flag */
-#define QUADSPI_SR_BUSY_Pos            (5U)
-#define QUADSPI_SR_BUSY_Msk            (0x1UL << QUADSPI_SR_BUSY_Pos)          /*!< 0x00000020 */
-#define QUADSPI_SR_BUSY                QUADSPI_SR_BUSY_Msk                     /*!< Busy */
-#define QUADSPI_SR_FLEVEL_Pos          (8U)
-#define QUADSPI_SR_FLEVEL_Msk          (0x1FUL << QUADSPI_SR_FLEVEL_Pos)       /*!< 0x00001F00 */
-#define QUADSPI_SR_FLEVEL              QUADSPI_SR_FLEVEL_Msk                   /*!< FIFO Threshlod Flag */
+        '''
+        if not args:
+            raise TypeError("descriptor '__init__' of 'Counter' object "
+                            "needs an argument")
+        self = args[0]
+        args = args[1:]
+        if len(args) > 1:
+            raise TypeError('expected at most 1 arguments, got %d' % len(args))
+        super(Counter, self).__init__()
+        self.update(*args, **kwds)
 
-/******************  Bit definition for QUADSPI_FCR register  ******************/
-#define QUADSPI_FCR_CTEF_Pos           (0U)
-#define QUADSPI_FCR_CTEF_Msk           (0x1UL << QUADSPI_FCR_CTEF_Pos)         /*!< 0x00000001 */
-#define QUADSPI_FCR_CTEF               QUADSPI_FCR_CTEF_Msk                    /*!< Clear Transfer Error Flag */
-#define QUADSPI_FCR_CTCF_Pos           (1U)
-#define QUADSPI_FCR_CTCF_Msk           (0x1UL << QUADSPI_FCR_CTCF_Pos)         /*!< 0x00000002 */
-#define QUADSPI_FCR_CTCF               QUADSPI_FCR_CTCF_Msk                    /*!< Clear Transfer Complete Flag */
-#define QUADSPI_FCR_CSMF_Pos           (3U)
-#define QUADSPI_FCR_CSMF_Msk           (0x1UL << QUADSPI_FCR_CSMF_Pos)         /*!< 0x00000008 */
-#define QUADSPI_FCR_CSMF               QUADSPI_FCR_CSMF_Msk                    /*!< Clear Status Match Flag */
-#define QUADSPI_FCR_CTOF_Pos           (4U)
-#define QUADSPI_FCR_CTOF_Msk           (0x1UL << QUADSPI_FCR_CTOF_Pos)         /*!< 0x00000010 */
-#define QUADSPI_FCR_CTOF               QUADSPI_FCR_CTOF_Msk                    /*!< Clear Timeout Flag */
+    def __missing__(self, key):
+        'The count of elements not in the Counter is zero.'
+        # Needed so that self[missing_item] does not raise KeyError
+        return 0
 
-/******************  Bit definition for QUADSPI_DLR register  ******************/
-#define QUADSPI_DLR_DL_Pos             (0U)
-#define QUADSPI_DLR_DL_Msk             (0xFFFFFFFFUL << QUADSPI_DLR_DL_Pos)    /*!< 0xFFFFFFFF */
-#define QUADSPI_DLR_DL                 QUADSPI_DLR_DL_Msk                      /*!< DL[31:0]: Data Length */
+    def most_common(self, n=None):
+        '''List the n most common elements and their counts from the most
+        common to the least.  If n is None, then list all element counts.
 
-/******************  Bit definition for QUADSPI_CCR register  ******************/
-#define QUADSPI_CCR_INSTRUCTION_Pos    (0U)
-#define QUADSPI_CCR_INSTRUCTION_Msk    (0xFFUL << QUADSPI_CCR_INSTRUCTION_Pos) /*!< 0x000000FF */
-#define QUADSPI_CCR_INSTRUCTION        QUADSPI_CCR_INSTRUCTION_Msk             /*!< INSTRUCTION[7:0]: Instruction */
-#define QUADSPI_CCR_IMODE_Pos          (8U)
-#define QUADSPI_CCR_IMODE_Msk          (0x3UL << QUADSPI_CCR_IMODE_Pos)        /*!< 0x00000300 */
-#define QUADSPI_CCR_IMODE              QUADSPI_CCR_IMODE_Msk                   /*!< IMODE[1:0]: Instruction Mode */
-#define QUADSPI_CCR_IMODE_0            (0x1UL << QUADSPI_CCR_IMODE_Pos)        /*!< 0x00000100 */
-#define QUADSPI_CCR_IMODE_1            (0x2UL << QUADSPI_CCR_IMODE_Pos)        /*!< 0x00000200 */
-#define QUADSPI_CCR_ADMODE_Pos         (10U)
-#define QUADSPI_CCR_ADMODE_Msk         (0x3UL << QUADSPI_CCR_ADMODE_Pos)       /*!< 0x00000C00 */
-#define QUADSPI_CCR_ADMODE             QUADSPI_CCR_ADMODE_Msk                  /*!< ADMODE[1:0]: Address Mode */
-#define QUADSPI_CCR_ADMODE_0           (0x1UL << QUADSPI_CCR_ADMODE_Pos)       /*!< 0x00000400 */
-#define QUADSPI_CCR_ADMODE_1           (0x2UL << QUADSPI_CCR_ADMODE_Pos)       /*!< 0x00000800 */
-#define QUADSPI_CCR_ADSIZE_Pos         (12U)
-#define QUADSPI_CCR_ADSIZE_Msk         (0x3UL << QUADSPI_CCR_ADSIZE_Pos)       /*!< 0x00003000 */
-#define QUADSPI_CCR_ADSIZE             QUADSPI_CCR_ADSIZE_Msk                  /*!< ADSIZE[1:0]: Address Size */
-#define QUADSPI_CCR_ADSIZE_0           (0x1UL << QUADSPI_CCR_ADSIZE_Pos)       /*!< 0x00001000 */
-#define QUADSPI_CCR_ADSIZE_1           (0x2UL << QUADSPI_CCR_ADSIZE_Pos)       /*!< 0x00002000 */
-#define QUADSPI_CCR_ABMODE_Pos         (14U)
-#define QUADSPI_CCR_ABMODE_Msk         (0x3UL << QUADSPI_CCR_ABMODE_Pos)       /*!< 0x0000C000 */
-#define QUADSPI_CCR_ABMODE             QUADSPI_CCR_ABMODE_Msk                  /*!< ABMODE[1:0]: Alternate Bytes Mode */
-#define QUADSPI_CCR_ABMODE_0           (0x1UL << QUADSPI_CCR_ABMODE_Pos)       /*!< 0x00004000 */
-#define QUADSPI_CCR_ABMODE_1           (0x2UL << QUADSPI_CCR_ABMODE_Pos)       /*!< 0x00008000 */
-#define QUADSPI_CCR_ABSIZE_Pos         (16U)
-#define QUADSPI_CCR_ABSIZE_Msk         (0x3UL << QUADSPI_CCR_ABSIZE_Pos)       /*!< 0x00030000 */
-#define QUADSPI_CCR_ABSIZE             QUADSPI_CCR_ABSIZE_Msk                  /*!< ABSIZE[1:0]: Instruction Mode */
-#define QUADSPI_CCR_ABSIZE_0           (0x1UL << QUADSPI_CCR_ABSIZE_Pos)       /*!< 0x00010000 */
-#define QUADSPI_CCR_ABSIZE_1           (0x2UL << QUADSPI_CCR_ABSIZE_Pos)       /*!< 0x00020000 */
-#define QUADSPI_CCR_DCYC_Pos           (18U)
-#define QUADSPI_CCR_DCYC_Msk           (0x1FUL << QUADSPI_CCR_DCYC_Pos)        /*!< 0x007C0000 */
-#define QUADSPI_CCR_DCYC               QUADSPI_CCR_DCYC_Msk                    /*!< DCYC[4:0]: Dummy Cycles */
-#define QUADSPI_CCR_DMODE_Pos          (24U)
-#define QUADSPI_CCR_DMODE_Msk          (0x3UL << QUADSPI_CCR_DMODE_Pos)        /*!< 0x03000000 */
-#define QUADSPI_CCR_DMODE              QUADSPI_CCR_DMODE_Msk                   /*!< DMODE[1:0]: Data Mode */
-#define QUADSPI_CCR_DMODE_0            (0x1UL << QUADSPI_CCR_DMODE_Pos)        /*!< 0x01000000 */
-#define QUADSPI_CCR_DMODE_1            (0x2UL << QUADSPI_CCR_DMODE_Pos)        /*!< 0x02000000 */
-#define QUADSPI_CCR_FMODE_Pos          (26U)
-#define QUADSPI_CCR_FMODE_Msk          (0x3UL << QUADSPI_CCR_FMODE_Pos)        /*!< 0x0C000000 */
-#define QUADSPI_CCR_FMODE              QUADSPI_CCR_FMODE_Msk                   /*!< FMODE[1:0]: Functional Mode */
-#define QUADSPI_CCR_FMODE_0            (0x1UL << QUADSPI_CCR_FMODE_Pos)        /*!< 0x04000000 */
-#define QUADSPI_CCR_FMODE_1            (0x2UL << QUADSPI_CCR_FMODE_Pos)        /*!< 0x08000000 */
-#define QUADSPI_CCR_SIOO_Pos           (28U)
-#define QUADSPI_CCR_SIOO_Msk           (0x1UL << QUADSPI_CCR_SIOO_Pos)         /*!< 0x10000000 */
-#define QUADSPI_CCR_SIOO               QUADSPI_CCR_SIOO_Msk                    /*!< SIOO: Send Instruction Only Once Mode */
-#define QUADSPI_CCR_DHHC_Pos           (30U)
-#define QUADSPI_CCR_DHHC_Msk           (0x1UL << QUADSPI_CCR_DHHC_Pos)         /*!< 0x40000000 */
-#define QUADSPI_CCR_DHHC               QUADSPI_CCR_DHHC_Msk                    /*!< DHHC: DDR hold */
-#define QUADSPI_CCR_DDRM_Pos           (31U)
-#define QUADSPI_CCR_DDRM_Msk           (0x1UL << QUADSPI_CCR_DDRM_Pos)         /*!< 0x80000000 */
-#define QUADSPI_CCR_DDRM               QUADSPI_CCR_DDRM_Msk                    /*!< DDRM: Double Data Rate Mode */
+        >>> Counter('abcdeabcdabcaba').most_common(3)
+        [('a', 5), ('b', 4), ('c', 3)]
 
-/******************  Bit definition for QUADSPI_AR register  *******************/
-#define QUADSPI_AR_ADDRESS_Pos         (0U)
-#define QUADSPI_AR_ADDRESS_Msk         (0xFFFFFFFFUL << QUADSPI_AR_ADDRESS_Pos) /*!< 0xFFFFFFFF */
-#define QUADSPI_AR_ADDRESS             QUADSPI_AR_ADDRESS_Msk                  /*!< ADDRESS[31:0]: Address */
+        '''
+        # Emulate Bag.sortedByCount from Smalltalk
+        if n is None:
+            return sorted(self.iteritems(), key=_itemgetter(1), reverse=True)
+        return _heapq.nlargest(n, self.iteritems(), key=_itemgetter(1))
 
-/******************  Bit definition for QUADSPI_ABR register  ******************/
-#define QUADSPI_ABR_ALTERNATE_Pos      (0U)
-#define QUADSPI_ABR_ALTERNATE_Msk      (0xFFFFFFFFUL << QUADSPI_ABR_ALTERNATE_Pos) /*!< 0xFFFFFFFF */
-#define QUADSPI_ABR_ALTERNATE          QUADSPI_ABR_ALTERNATE_Msk               /*!< ALTERNATE[31:0]: Alternate Bytes */
+    def elements(self):
+        '''Iterator over elements repeating each as many times as its count.
 
-/******************  Bit definition for QUADSPI_DR register  *******************/
-#define QUADSPI_DR_DATA_Pos            (0U)
-#define QUADSPI_DR_DATA_Msk            (0xFFFFFFFFUL << QUADSPI_DR_DATA_Pos)   /*!< 0xFFFFFFFF */
-#define QUADSPI_DR_DATA                QUADSPI_DR_DATA_Msk                     /*!< DATA[31:0]: Data */
+        >>> c = Counter('ABCABC')
+        >>> sorted(c.elements())
+        ['A', 'A', 'B', 'B', 'C', 'C']
 
-/******************  Bit definition for QUADSPI_PSMKR register  ****************/
-#define QUADSPI_PSMKR_MASK_Pos         (0U)
-#define QUADSPI_PSMKR_MASK_Msk         (0xFFFFFFFFUL << QUADSPI_PSMKR_MASK_Pos) /*!< 0xFFFFFFFF */
-#define QUADSPI_PSMKR_MASK             QUADSPI_PSMKR_MASK_Msk                  /*!< MASK[31:0]: Status Mask */
+        # Knuth's example for prime factors of 1836:  2**2 * 3**3 * 17**1
+        >>> prime_factors = Counter({2: 2, 3: 3, 17: 1})
+        >>> product = 1
+        >>> for factor in prime_factors.elements():     # loop over factors
+        ...     product *= factor                       # and multiply them
+        >>> product
+        1836
 
-/******************  Bit definition for QUADSPI_PSMAR register  ****************/
-#define QUADSPI_PSMAR_MATCH_Pos        (0U)
-#define QUADSPI_PSMAR_MATCH_Msk        (0xFFFFFFFFUL << QUADSPI_PSMAR_MATCH_Pos) /*!< 0xFFFFFFFF */
-#define QUADSPI_PSMAR_MATCH            QUADSPI_PSMAR_MATCH_Msk                 /*!< MATCH[31:0]: Status Match */
+        Note, if an element's count has been set to zero or is a negative
+        number, elements() will ignore it.
 
-/******************  Bit definition for QUADSPI_PIR register  *****************/
+        '''
+        # Emulate Bag.do from Smalltalk and Multiset.begin from C++.
+        return _chain.from_iterable(_starmap(_repeat, self.iteritems()))
+
+    # Override dict methods where necessary
+
+    @classmethod
+    def fromkeys(cls, iterable, v=None):
+        # There is no equivalent method for counters because setting v=1
+        # means that no element can have a count greater than one.
+        raise NotImplementedError(
+            'Counter.fromkeys() is undefined.  Use Counter(iterable) instead.')
+
+    def update(*args, **kwds):
+        '''Like dict.update() but add counts instead of replacing them.
+
+        Source can be an iterable, a dictionary, or another Counter instance.
+
+        >>> c = Counter('which')
+        >>> c.update('witch')           # add elements from another iterable
+        >>> d = Counter('watch')
+        >>> c.update(d)                 # add elements from another counter
+        >>> c['h']                      # four 'h' in which, witch, and watch
+        4
+
+        '''
+        # The regular dict.update() operation makes no sense here because the
+        # replace behavior results in the some of original untouched counts
+        # being mixed-in with all of the other counts for a mismash that
+        # doesn't have a straight-forward interpretation in most counting
+        # contexts.  Instead, we implement straight-addition.  Both the inputs
+        # and outputs are allowed to contain zero and negative counts.
+
+        if not args:
+            raise TypeError("descriptor 'update' of 'Counter' object "
+                            "needs an argument")
+        self = args[0]
+        args = args[1:]
+        if len(args) > 1:
+            raise TypeError('expected at most 1 arguments, got %d' % len(args))
+        iterable = args[0] if args else None
+        if iterable is not None:
+            if isinstance(iterable, Mapping):
+                if self:
+                    self_get = self.get
+                    for elem, count in iterable.iteritems():
+                        self[elem] = self_get(elem, 0) + count
+                else:
+                    super(Counter, self).update(iterable) # fast path when counter is empty
+            else:
+                self_get = self.get
+                for elem in iterable:
+                    self[elem] = self_get(elem, 0) + 1
+        if kwds:
+            self.update(kwds)
+
+    def subtract(*args, **kwds):
+        '''Like dict.update() but subtracts counts instead of replacing them.
+        Counts can be reduced below zero.  Both the inputs and outputs are
+        allowed to contain zero and negative counts.
+
+        Source can be an iterable, a dictionary, or another Counter instance.
+
+        >>> c = Counter('which')
+        >>> c.subtract('witch')             # subtract elements from another iterable
+        >>> c.subtract(Counter('watch'))    # subtract elements from another counter
+        >>> c['h']                          # 2 in which, minus 1 in witch, minus 1 in watch
+        0
+        >>> c['w']                          # 1 in which, minus 1 in witch, minus 1 in watch
+        -1
+
+        '''
+        if not args:
+            raise TypeError("descriptor 'subtract' of 'Counter' object "
+                            "needs an argument")
+        self = args[0]
+        args = args[1:]
+        if len(args) > 1:
+            raise TypeError('expected at most 1 arguments, got %d' % len(args))
+        iterable = args[0] if args else None
+        if iterable is not None:
+            self_get = self.get
+            if isinstance(iterable, Mapping):
+                for elem, count in iterable.items():
+                    self[elem] = self_get(elem, 0) - count
+            else:
+                for elem in iterable:
+                    self[elem] = self_get(elem, 0) - 1
+        if kwds:
+            self.subtract(kwds)
+
+    def copy(self):
+        'Return a shallow copy.'
+        return self.__class__(self)
+
+    def __reduce__(self):
+        return self.__class__, (dict(self),)
+
+    def __delitem__(self, elem):
+        'Like dict.__delitem__() but does not raise KeyError for missing values.'
+        if elem in self:
+            super(Counter, self).__delitem__(elem)
+
+    def __repr__(self):
+        if not self:
+            return '%s()' % self.__class__.__name__
+        items = ', '.join(map('%r: %r'.__mod__, self.most_common()))
+        return '%s({%s})' % (self.__class__.__name__, items)
+
+    # Multiset-style mathematical operations discussed in:
+    #       Knuth TAOCP Volume II section 4.6.3 exercise 19
+    #       and at http://en.wikipedia.org/wiki/Multiset
+    #
+    # Outputs guaranteed to only include positive counts.
+    #
+    # To strip negative and zero counts, add-in an empty counter:
+    #       c += Counter()
+
+    def __add__(self, other):
+        '''Add counts from two counters.
+
+        >>> Counter('abbb') + Counter('bcc')
+        Counter({'b': 4, 'c': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            newcount = count + other[elem]
+            if newcount > 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count > 0:
+                result[elem] = count
+        return result
+
+    def __sub__(self, other):
+        ''' Subtract count, but keep only results with positive counts.
+
+        >>> Counter('abbbc') - Counter('bccd')
+        Counter({'b': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            newcount = count - other[elem]
+            if newcount > 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count < 0:
+                result[elem] = 0 - count
+        return result
+
+    def __or__(self, other):
+        '''Union is the maximum of value in either of the input counters.
+
+        >>> Counter('abbb') | Counter('bcc')
+        Counter({'b': 3, 'c': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            other_count = other[elem]
+            newcount = other_count if count < other_count else count
+            if newcount > 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count > 0:
+                result[elem] = count
+        return result
+
+    def __and__(self, other):
+        ''' Intersection is the minimum of corresponding counts.
+
+        >>> Counter('abbb') & Counter('bcc')
+        Counter({'b': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            other_count = other[elem]
+            newcount = count if count < other_count else other_count
+            if newcount > 0:
+                result[elem] = newcount
+        return result
+
+
+if __name__ == '__main__':
+    # verify that instances can be pickled
+    from cPickle import loads, dumps
+    Point = namedtuple('Point', 'x, y', True)
+    p = Point(x=10, y=20)
+    assert p == loads(dumps(p))
+
+    # test and demonstrate ability to override methods
+    class Point(namedtuple('Point', 'x y')):
+        __slots__ = ()
+        @property
+        def hypot(self):
+            return (self.x ** 2 + self.y ** 2) ** 0.5
+        def __str__(self):
+            return 'Point: x=%6.3f  y=%6.3f  hypot=%6.3f' % (self.x, self.y, self.hypot)
+
+    for p in Point(3, 4), Point(14, 5/7.):
+        print p
+
+    class Point(namedtuple('Point', 'x y')):
+        'Point class with optimized _make() and _replace() without error-checking'
+        __slots__ = ()
+        _make = classmethod(tuple.__new__)
+        def _replace(self, _map=map, **kwds):
+            return self._make(_map(kwds.get, ('x', 'y'), self))
+
+    print Point(11, 22)._replace(x=100)
+
+    Point3D = namedtuple('Point3D', Point._fields + ('z',))
+    print Point3D.__doc__
+
+    import doctest
+    TestResults = namedtuple('TestResults', 'failed attempted')
+    print TestResults(*doctest.testmod())
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ó
+gªŸ]c           @   sˆ  d  Z  d d d d d g Z d d l Td d l Z e e j 7Z d d	 l m Z m Z d d
+ l m Z m	 Z
+ d d l m Z d d l Z d d l Z d d l m Z m Z m Z d d l m Z y d d l m Z Wn! e k
+ rõ d d l m Z n Xd e  f d „  ƒ  YZ! d Z" d Z# d Z$ e% e% d „ Z& d e  f d „  ƒ  YZ' e( d k r„d d l) m* Z* m+ Z+ e& d d e, ƒ Z- e- d d d d ƒ Z. e. e* e+ e. ƒ ƒ k sªt/ ‚ d e& d d ƒ f d „  ƒ  YZ- x/ e- d d  ƒ e- d! d" d# ƒ f D] Z. e. GHqìWd e& d d ƒ f d$ „  ƒ  YZ- e- d% d& ƒ j0 d d' ƒ GHe& d( e- j1 d) f ƒ Z2 e2 j  GHd d l3 Z3 e& d* d+ ƒ Z4 e4 e3 j5 ƒ  Œ  GHn  d S(,   s  This module implements specialized container datatypes providing
+alternatives to Python's general purpose built-in containers, dict,
+list, set, and tuple.
+
+* namedtuple   factory function for creating tuple subclasses with named fields
+* deque        list-like container with fast appends and pops on either end
+* Counter      dict subclass for counting hashable objects
+* OrderedDict  dict subclass that remembers the order entries were added
+* defaultdict  dict subclass that calls a factory function to supply missing values
+
+t   Countert   dequet   defaultdictt
+   namedtuplet   OrderedDictiÿÿÿÿ(   t   *N(   R   R   (   t
+   itemgettert   eq(   t	   iskeyword(   t   repeatt   chaint   starmap(   t   imap(   t	   get_identc           B   s  e  Z d  Z d „  Z e j d „ Z e j d „ Z d „  Z d „  Z d „  Z	 d „  Z
+ d „  Z d	 „  Z d
+ „  Z d „  Z d „  Z e j Z e Z e ƒ  Z e d „ Z d d „ Z e d „ Z i  d „ Z d „  Z d „  Z e d d „ ƒ Z d „  Z d „  Z  d „  Z! d „  Z" d „  Z# RS(   s)   Dictionary that remembers insertion orderc          O   s­   |  s t  d ƒ ‚ n  |  d } |  d }  t |  ƒ d k rT t  d t |  ƒ ƒ ‚ n  y | j Wn7 t k
+ r˜ g  | _ } | | d g | (i  | _ n X| j |  | Ž  d S(   sÅ   Initialize an ordered dictionary.  The signature is the same as
+        regular dictionaries, but keyword arguments are not recommended because
+        their insertion order is arbitrary.
+
+        s?   descriptor '__init__' of 'OrderedDict' object needs an argumenti    i   s$   expected at most 1 arguments, got %dN(   t	   TypeErrort   lent   _OrderedDict__roott   AttributeErrort   Nonet   _OrderedDict__mapt   _OrderedDict__update(   t   argst   kwdst   selft   root(    (    s!   /usr/lib/python2.7/collections.pyt   __init__2   s    
+
+c         C   sX   | |  k rH |  j  } | d } | | | g | d <| d <|  j | <n  | |  | | ƒ S(   s!   od.__setitem__(i, y) <==> od[i]=yi    i   (   R   R   (   R   t   keyt   valuet   dict_setitemR   t   last(    (    s!   /usr/lib/python2.7/collections.pyt   __setitem__G   s
+    	
+)c         C   s@   | |  | ƒ |  j  j | ƒ \ } } } | | d <| | d <d S(   s    od.__delitem__(y) <==> del od[y]i   i    N(   R   t   pop(   R   R   t   dict_delitemt	   link_prevt	   link_nextt   _(    (    s!   /usr/lib/python2.7/collections.pyt   __delitem__Q   s    
+c         c   s=   |  j  } | d } x# | | k	 r8 | d V| d } q Wd S(   s   od.__iter__() <==> iter(od)i   i   N(   R   (   R   R   t   curr(    (    s!   /usr/lib/python2.7/collections.pyt   __iter__Z   s
+    	
+	c         c   s=   |  j  } | d } x# | | k	 r8 | d V| d } q Wd S(   s#   od.__reversed__() <==> reversed(od)i    i   N(   R   (   R   R   R%   (    (    s!   /usr/lib/python2.7/collections.pyt   __reversed__c   s
+    	
+	c         C   s7   |  j  } | | d g | (|  j j ƒ  t j |  ƒ d S(   s.   od.clear() -> None.  Remove all items from od.N(   R   R   R   t   cleart   dict(   R   R   (    (    s!   /usr/lib/python2.7/collections.pyR(   l   s    	c         C   s
+   t  |  ƒ S(   s   od.keys() -> list of keys in od(   t   list(   R   (    (    s!   /usr/lib/python2.7/collec QUADSPI_PIR register  *****************/
 #define QUADSPI_PIR_INTERVAL_Pos       (0U)
 #define QUADSPI_PIR_INTERVAL_Msk       (0xFFFFUL << QUADSPI_PIR_INTERVAL_Pos)  /*!< 0x0000FFFF */
 #define QUADSPI_PIR_INTERVAL           QUADSPI_PIR_INTERVAL_Msk                /*!< INTERVAL[15:0]: Polling Interval */

@@ -143,6 +143,8 @@ class PrinterConfig:
         self.printer = printer
         self.autosave = None
         self.deprecated = {}
+        self.runtime_warnings = []
+        self.deprecate_warnings = []
         self.status_raw_config = {}
         self.status_save_pending = {}
         self.status_settings = {}
@@ -151,6 +153,8 @@ class PrinterConfig:
         gcode = self.printer.lookup_object('gcode')
         gcode.register_command("SAVE_CONFIG", self.cmd_SAVE_CONFIG,
                                desc=self.cmd_SAVE_CONFIG_help)
+        gcode.register_command("SAVE_CONFIG_QD", self.cmd_SAVE_CONFIG_QD,
+                               desc=self.cmd_SAVE_CONFIG_QD_help)
     def get_printer(self):
         return self.printer
     def _read_config_file(self, filename):
@@ -189,7 +193,6 @@ class PrinterConfig:
     comment_r = re.compile('[#;].*$')
     value_r = re.compile('[^A-Za-z0-9_].*$')
     def _strip_duplicates(self, data, config):
-        fileconfig = config.fileconfig
         # Comment out fields in 'data' that are defined in 'config'
         lines = data.split('\n')
         section = None
@@ -314,6 +317,11 @@ class PrinterConfig:
                  "======================="]
         self.printer.set_rollover_info("config", "\n".join(lines))
     # Status reporting
+    def runtime_warning(self, msg):
+        logging.warning(msg)
+        res = {'type': 'runtime_warning', 'message': msg}
+        self.runtime_warnings.append(res)
+        self.status_warnings = self.runtime_warnings + self.deprecate_warnings
     def deprecate(self, section, option, value=None, msg=None):
         self.deprecated[(section, option, value)] = msg
     def _build_status(self, config):
@@ -325,7 +333,7 @@ class PrinterConfig:
         self.status_settings = {}
         for (section, option), value in config.access_tracking.items():
             self.status_settings.setdefault(section, {})[option] = value
-        self.status_warnings = []
+        self.deprecate_warnings = []
         for (section, option, value), msg in self.deprecated.items():
             if value is None:
                 res = {'type': 'deprecated_option'}
@@ -334,7 +342,8 @@ class PrinterConfig:
             res['message'] = msg
             res['section'] = section
             res['option'] = option
-            self.status_warnings.append(res)
+            self.deprecate_warnings.append(res)
+        self.status_warnings = self.runtime_warnings + self.deprecate_warnings
     def get_status(self, eventtime):
         return {'config': self.status_raw_config,
                 'settings': self.status_settings,
@@ -415,12 +424,62 @@ class PrinterConfig:
         try:
             f = open(temp_name, 'w')
             f.write(data)
+            f.flush()
             f.close()
             os.rename(cfgname, backup_name)
             os.rename(temp_name, cfgname)
+            os.system("sync")
         except:
             msg = "Unable to write config file during SAVE_CONFIG"
             logging.exception(msg)
             raise gcode.error(msg)
         # Request a restart
-        gcode.request_restart('restart')
+        gcode.request_restart('firmware_restart')
+
+    cmd_SAVE_CONFIG_QD_help = "Overwrite config file and restart"
+    def cmd_SAVE_CONFIG_QD(self, gcmd):
+        if not self.autosave.fileconfig.sections():
+            return
+        gcode = self.printer.lookup_object('gcode')
+        # Create string containing autosave data
+        autosave_data = self._build_config_string(self.autosave)
+        lines = [('#*# ' + l).strip()
+                 for l in autosave_data.split('\n')]
+        lines.insert(0, "\n" + AUTOSAVE_HEADER.rstrip())
+        lines.append("")
+        autosave_data = '\n'.join(lines)
+        # Read in and validate current config file
+        cfgname = self.printer.get_start_args()['config_file']
+        try:
+            data = self._read_config_file(cfgname)
+            regular_data, old_autosave_data = self._find_autosave_data(data)
+            config = self._build_config_wrapper(regular_data, cfgname)
+        except error as e:
+            msg = "Unable to parse existing config on SAVE_CONFIG"
+            logging.exception(msg)
+            raise gcode.error(msg)
+        regular_data = self._strip_duplicates(regular_data, self.autosave)
+        self._disallow_include_conflicts(regular_data, cfgname, gcode)
+        data = regular_data.rstrip() + autosave_data
+        # Determine filenames
+        datestr = time.strftime("-%Y%m%d_%H%M%S")
+        backup_name = cfgname + datestr
+        temp_name = cfgname + "_autosave"
+        if cfgname.endswith(".cfg"):
+            backup_name = cfgname[:-4] + datestr + ".cfg"
+            temp_name = cfgname[:-4] + "_autosave.cfg"
+        # Create new config file with temporary name and swap with main config
+        logging.info("SAVE_CONFIG to '%s' (backup in '%s')",
+                     cfgname, backup_name)
+        try:
+            f = open(temp_name, 'w')
+            f.write(data)
+            f.flush()
+            f.close()
+            os.rename(cfgname, backup_name)
+            os.rename(temp_name, cfgname)
+            os.system("sync")
+        except:
+            msg = "Unable to write config file during SAVE_CONFIG"
+            logging.exception(msg)
+            raise gcode.error(msg)

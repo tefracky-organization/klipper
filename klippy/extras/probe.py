@@ -12,6 +12,7 @@ If the probe did not move far enough to trigger, then
 consider reducing the Z axis minimum position so the probe
 can travel further (the Z minimum position can be negative).
 """
+_NERVER = 9999999
 
 class PrinterProbe:
     def __init__(self, config, mcu_probe):
@@ -28,6 +29,7 @@ class PrinterProbe:
         self.last_state = False
         self.last_z_result = 0.
         self.gcode_move = self.printer.load_object(config, "gcode_move")
+        self.probe_count = 0
         # Infer Z position to move to during a probe
         if config.has_section('stepper_z'):
             zconfig = config.getsection('stepper_z')
@@ -41,13 +43,15 @@ class PrinterProbe:
         self.sample_count = config.getint('samples', 1, minval=1)
         self.sample_retract_dist = config.getfloat('sample_retract_dist', 2.,
                                                    above=0.)
-        atypes = {'median': 'median', 'average': 'average'}
+        atypes = {'median': 'median', 'average': 'average',"submaxmin":"submaxmin"}
         self.samples_result = config.getchoice('samples_result', atypes,
                                                'average')
         self.samples_tolerance = config.getfloat('samples_tolerance', 0.100,
                                                  minval=0.)
         self.samples_retries = config.getint('samples_tolerance_retries', 0,
                                              minval=0)
+        # vibrate
+        self.vibrate = config.getint('vibrate', _NERVER)
         # Register z_virtual_endstop pin
         self.printer.lookup_object('pins').register_chip('probe', self)
         # Register homing event handlers
@@ -170,6 +174,9 @@ class PrinterProbe:
         probexy = self.printer.lookup_object('toolhead').get_position()[:2]
         retries = 0
         positions = []
+        gcode = self.gcode
+        last_probe_failed = False
+        start_z = self.printer.lookup_object('toolhead').get_position()[2]
         while len(positions) < sample_count:
             # Probe position
             pos = self._probe(speed)
@@ -178,18 +185,45 @@ class PrinterProbe:
             z_positions = [p[2] for p in positions]
             if max(z_positions) - min(z_positions) > samples_tolerance:
                 if retries >= samples_retries:
-                    raise gcmd.error("Probe samples exceed samples_tolerance")
+                    # raise gcmd.error("Probe samples exceed samples_tolerance")
+                    self._move(probexy + [start_z], lift_speed)
+                    commands = [
+                            'Z_VIBRATE',
+                            'G4 P500',
+                    ]
+                    gcode._process_commands(commands, False)
+                    retries=0
+                    positions = []
                 gcmd.respond_info("Probe samples exceed tolerance. Retrying...")
+                last_probe_failed = True
+                self.probe_count += 1
                 retries += 1
                 positions = []
             # Retract
             if len(positions) < sample_count:
                 self._move(probexy + [pos[2] + sample_retract_dist], lift_speed)
+                if last_probe_failed:
+                    if self.probe_count != 0 and self.probe_count % self.vibrate == 0:
+                        gcode.respond_info('Probe ' + str(self.probe_count) + " times, start vibrating")
+                        commands = [
+                            'G91',
+                            'G1 Z20 F300',
+                            'G90',
+                            'G1 Z10 F300',
+                            'Z_VIBRATE'
+                        ]
+                        gcode._process_commands(commands, False)
+                    last_probe_failed = False
         if must_notify_multi_probe:
             self.multi_probe_end()
         # Calculate and return result
         if samples_result == 'median':
             return self._calc_median(positions)
+        if samples_result == 'submaxmin':
+            z_sorted = sorted(positions, key=(lambda p: p[2]))
+            if len(positions)>=3:
+                z_sorted=z_sorted[1:-1]
+            return self._calc_mean(z_sorted)
         return self._calc_mean(positions)
     cmd_PROBE_help = "Probe Z-height at current XY position"
     def cmd_PROBE(self, gcmd):
@@ -206,7 +240,10 @@ class PrinterProbe:
     def get_status(self, eventtime):
         return {'name': self.name,
                 'last_query': self.last_state,
-                'last_z_result': self.last_z_result}
+                'last_z_result': self.last_z_result,
+                'x_offset': self.x_offset,
+                'y_offset': self.y_offset,
+                'z_offset': self.z_offset}
     cmd_PROBE_ACCURACY_help = "Probe Z-height accuracy at current XY position"
     def cmd_PROBE_ACCURACY(self, gcmd):
         speed = gcmd.get_float("PROBE_SPEED", self.speed, above=0.)
@@ -307,6 +344,7 @@ class ProbeEndstopWrapper:
         ppins = self.printer.lookup_object('pins')
         pin = config.get('pin')
         pin_params = ppins.lookup_pin(pin, can_invert=True, can_pullup=True)
+        self.pin_params=pin_params
         mcu = pin_params['chip']
         self.mcu_endstop = mcu.setup_pin('endstop', pin_params)
         self.printer.register_event_handler('klippy:mcu_identify',
@@ -435,11 +473,23 @@ class ProbePointsHelper:
             raise gcmd.error("horizontal_move_z can't be less than"
                              " probe's z_offset")
         probe.multi_probe_begin()
+        probe.probe_count = 0
         while 1:
             done = self._move_next()
             if done:
                 break
+            if self.gcode.break_flag:
+                break
             pos = probe.run_probe(gcmd)
+            probe.probe_count += 1
+#            gcode = self.printer.lookup_object('gcode')
+#            if probe.vibrate and probe.probe_count % probe.vibrate == 0:
+#                commands = [
+#                    'G90',
+#                    'G1 Z'+ str(self.horizontal_move_z) + ' F300',
+#                    'Z_VIBRATE'
+#                ]
+#                gcode._process_commands(commands, False)
             self.results.append(pos)
         probe.multi_probe_end()
     def _manual_probe_start(self):

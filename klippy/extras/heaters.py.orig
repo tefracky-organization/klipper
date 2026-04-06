@@ -240,10 +240,7 @@ class ControlPID:
         #logging.debug("pid: %f@%.3f -> diff=%f deriv=%f err=%f integ=%f co=%d",
         #    temp, read_time, temp_diff, temp_deriv, temp_err, temp_integ, co)
         bounded_co = max(0., min(self.heater_max_power, co))
-        # We add this DISABLE_BED_CHECK flag so that the chamber heater can be controlled independently of the bed heater
-        # This should not be used in normal operation with the stock piezo sensor
-        DISABLE_BED_CHECK = True
-        if self.heater.name == "chamber" and heater_bed.heater_bed_state != 2 and heater_bed.is_heater_bed == 1 and not DISABLE_BED_CHECK:
+        if self.heater.name == "chamber" and heater_bed.heater_bed_state != 2 and heater_bed.is_heater_bed == 1:
             self.heater.set_pwm(read_time, 0.)
         else:
             self.heater.set_pwm(read_time, bounded_co)

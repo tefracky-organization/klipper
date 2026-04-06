@@ -404,5 +404,6 @@ class TMC2240:
         #   SG4_THRS
         set_config_field(config, "sg4_angle_offset", 1)
 
+        set_config_field(config, "overtempprewarning_vth", 3155)
 def load_config_prefix(config):
     return TMC2240(config)
