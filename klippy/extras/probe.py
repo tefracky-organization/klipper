@@ -482,14 +482,14 @@ class ProbePointsHelper:
                 break
             pos = probe.run_probe(gcmd)
             probe.probe_count += 1
-#            gcode = self.printer.lookup_object('gcode')
-#            if probe.vibrate and probe.probe_count % probe.vibrate == 0:
-#                commands = [
-#                    'G90',
-#                    'G1 Z'+ str(self.horizontal_move_z) + ' F300',
-#                    'Z_VIBRATE'
-#                ]
-#                gcode._process_commands(commands, False)
+            gcode = self.printer.lookup_object('gcode')
+            if probe.vibrate and probe.probe_count % probe.vibrate == 0:
+                commands = [
+                    'G90',
+                    'G1 Z'+ str(self.horizontal_move_z) + ' F300',
+                    'Z_VIBRATE'
+                ]
+                gcode._process_commands(commands, False)
             self.results.append(pos)
         probe.multi_probe_end()
     def _manual_probe_start(self):

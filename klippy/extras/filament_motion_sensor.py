@@ -50,15 +50,13 @@ class EncoderSensor:
         self.printer.register_event_handler('idle_timeout:idle',
                 self._handle_not_printing)
         self.gcode = self.printer.lookup_object('gcode')
-        # self.gcode.register_command(
-        #     'CLEAR_MOTION_DATA',
-        #     self.cmd_CLEAR_MOTION_DATA
-        # )
+        self.gcode.register_command(
+            'CLEAR_MOTION_DATA',
+            self.cmd_CLEAR_MOTION_DATA
+        )
         self.motion_name = config.get_name().split()[1]
         self.gcode.register_mux_command('SET_MOTION_DETECTION', "NAME", self.motion_name, self.cmd_SET_MOTION_DETECTION)
         self.gcode.register_mux_command('GET_MOTION_DETECTION', "NAME", self.motion_name, self.cmd_GET_MOTION_DETECTION)
-        self.gcode.register_mux_command('CLEAR_MOTION_DATA', "SENSOR", self.motion_name, self.cmd_CLEAR_MOTION_DATA)
-
     def _update_filament_runout_pos(self, eventtime=None):
         if eventtime is None:
             eventtime = self.reactor.monotonic()
@@ -78,17 +76,7 @@ class EncoderSensor:
         self.gcode.respond_info("the detection_length is: " + str(self.detection_length))
 
     def cmd_CLEAR_MOTION_DATA(self, gcmd):
-        box_extras = self.printer.lookup_object('box_extras')
-        loaded_slot = box_extras.get_value_by_key("extrude_state",-2)
-        if loaded_slot == -2:
-            return
-        if loaded_slot >= 0:
-            box_stepper = self.printer.lookup_object('box_stepper slot' + str(loaded_slot))
-            if not box_stepper.r_endstop_state:
-                self._update_filament_runout_pos()
-                self.runout_helper.sensor_enabled = True
-            else:
-                self.gcode.respond_info("The filament has been exhausted, box_motion failed to enable.")
+        self._update_filament_runout_pos()
     def _handle_ready(self):
         self.extruder = self.printer.lookup_object(self.extruder_name)
         self.estimated_print_time = (
