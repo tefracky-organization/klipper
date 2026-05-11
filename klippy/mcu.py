@@ -224,10 +224,10 @@ class MCU_trsync:
         return params['trigger_reason']
 
 TRSYNC_TIMEOUT = 0.10
-TRSYNC_SINGLE_MCU_TIMEOUT = 0.250
-
-class MCU_endstop:
-    RETRY_QUERY = 1.000
+# TRSYNC_SINGLE_MCU_TIMEOUT = 0.250
+TRSYNC_SINGLE_MCU_TIMEOUT = 0.500 # Oliver: von 0.250 auf 0.500 erhöht
+                                  # report_ticks = 0.500 * 0.3 = 150ms statt 75ms Verhindert Timer Too Close bei Y-Homing durchclass MCU_endstop:
+                                  # Python-Reaktor-Jitter auf dem RockChip-SBC    RETRY_QUERY = 1.000
     def __init__(self, mcu, pin_params):
         self._mcu = mcu
         self._pin = pin_params['pin']
